@@ -1,20 +1,16 @@
-package com.example.task32rickandmorty
+package com.example.task32rickandmorty.data
 
-import com.example.task32rickandmorty.data.HeroesNetwork
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Query
 
 
-const val BASE_URL = "https://rickandmortyapi.com/api/character"
+const val BASE_URL = "https://rickandmortyapi.com/api/"
+
 interface HeroesApi {
-    @GET("page")
-    fun heroesPage(
-        @Query("id")
-        page: Int
-    ): Call<HeroesNetwork>
+    @GET("character")
+    fun getCharacter(): Call<HeroesNetwork>
 
     companion object {
         fun create(): HeroesApi {

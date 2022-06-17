@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName
 
 data class HeroesNetwork(
     @SerializedName("info")
-    val info: Info,
+    val pagesNetwork: PagesNetwork,
     @SerializedName("results")
     val results: List<Result>
 )
 
-data class Info(
+data class PagesNetwork(
     @SerializedName("count")
     val count: Int,
     @SerializedName("next")
