@@ -2,7 +2,6 @@ package com.example.task32rickandmorty.presentaion
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.task32rickandmorty.R
 import com.example.task32rickandmorty.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

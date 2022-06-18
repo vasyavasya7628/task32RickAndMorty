@@ -1,6 +1,5 @@
 package com.example.task32rickandmorty.presentaion
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +23,7 @@ class HeroesFragment : Fragment() {
     ): View {
         _binding = FragmentHeroesBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

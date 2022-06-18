@@ -16,16 +16,18 @@ class HeroesViewModel : ViewModel() {
     private var _heroes: MutableLiveData<List<HeroesLocal>> =
         MutableLiveData<List<HeroesLocal>>()
     val heroesExport: LiveData<List<HeroesLocal>> get() = _heroes
+
     init {
         getDataNetwork()
     }
+
     private fun getDataNetwork() {
         api.getCharacter(
         ).enqueue(object : retrofit2.Callback<HeroesNetwork> {
 
             override fun onResponse(
-                    call: Call<HeroesNetwork>,
-                    response: Response<HeroesNetwork>
+                call: Call<HeroesNetwork>,
+                response: Response<HeroesNetwork>
             ) {
                 val heroesNetwork: HeroesNetwork = response.body() as HeroesNetwork
                 val heroesDomain: List<HeroesLocal> = heroesNetwork.results.map {

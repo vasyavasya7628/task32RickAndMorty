@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/textSpecies"
-        android:layout_width="185dp"
+        android:layout_width="184dp"
         android:layout_height="18dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
@@ -17,8 +17,8 @@
 
     <TextView
         android:id="@+id/textGender"
-        android:layout_width="185dp"
-        android:layout_height="22dp"
+        android:layout_width="184dp"
+        android:layout_height="24dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="@string/gender"

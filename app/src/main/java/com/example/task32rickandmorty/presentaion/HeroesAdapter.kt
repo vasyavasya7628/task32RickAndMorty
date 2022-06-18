@@ -1,6 +1,5 @@
 package com.example.task32rickandmorty.presentaion
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -37,14 +36,14 @@ class ItemViewHolder(binding: ItemHeroesBinding) : RecyclerView.ViewHolder(bindi
         Glide.with(bindItem.imgHero.context)
             .load(item.image)
             .into(bindItem.imgHero)
-        bindItem.imgHero.setOnClickListener{
-            //список обработать GSON
-            val fragmentEpisodes = FragmentEpisodes.newInstance(item.name, item.episode.toString())
 
+        bindItem.imgHero.setOnClickListener {
+            val fragmentEpisodes: FragmentEpisodes =
+                FragmentEpisodes.newInstance(item.name, item.episode.toString()) as FragmentEpisodes
             val transaction = itemView.context as AppCompatActivity
             transaction.supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container_view, FragmentEpisodes())
+                .replace(R.id.fragment_container_view, fragmentEpisodes)
                 .addToBackStack(null)
                 .commit()
         }

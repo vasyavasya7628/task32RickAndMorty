@@ -2,13 +2,12 @@ package com.example.task32rickandmorty.presentaion
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.task32rickandmorty.R
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
 import com.example.task32rickandmorty.databinding.FragmentEpisodesBinding
-import com.example.task32rickandmorty.databinding.FragmentHeroesBinding
 import timber.log.Timber
 
 
@@ -33,24 +32,21 @@ class FragmentEpisodes : Fragment() {
 
     private fun showEpisodes() {
         Timber.tag("FragmentEpisodes").d(getName + getEpisodes)
-        binding.textEpisodes.text = getName
+        binding.textName.text = getName
+        binding.textEpisodes.text = getEpisodes
     }
 
-    override fun onAttach(context: Context) {
+    override fun onAttach(@NonNull context: Context) {
         super.onAttach(context)
         arguments?.getString("name")?.let {
             getName = it
         }
-//        arguments?.apply {
-//            getString("name")?.let {
-//                getName = it
-//            }
-//
-//            getString("episodes")?.let {
-//                getEpisodes = it
-//            }
-//        }
+
+        arguments?.getString("episodes")?.let {
+            getEpisodes = it
+        }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -59,11 +55,15 @@ class FragmentEpisodes : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(sendName: String, sendEpisodes: String) = FragmentEpisodes.apply {
-            var arguments = Bundle().apply {
-                putString("name", sendName)
-                putString("episodes", sendEpisodes)
+        fun newInstance(sendName: String, sendEpisodes: String): Fragment {
+            return FragmentEpisodes().apply {
+                arguments = Bundle().apply {
+                    putString("name", sendName)
+                    putString("episodes", sendEpisodes)
+                    arguments
+                }
             }
         }
     }
+
 }
