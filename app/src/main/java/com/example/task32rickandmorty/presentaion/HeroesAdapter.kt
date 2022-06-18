@@ -1,16 +1,16 @@
 package com.example.task32rickandmorty.presentaion
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.task32rickandmorty.R
 import com.example.task32rickandmorty.data.HeroesLocal
 import com.example.task32rickandmorty.databinding.ItemHeroesBinding
-import timber.log.Timber
-import java.security.AccessController.getContext
 
 class HeroesAdapter : ListAdapter<HeroesLocal, ItemViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -38,8 +38,15 @@ class ItemViewHolder(binding: ItemHeroesBinding) : RecyclerView.ViewHolder(bindi
             .load(item.image)
             .into(bindItem.imgHero)
         bindItem.imgHero.setOnClickListener{
-            //itemView.context.startActivity()
-            Toast.makeText(itemView.context, "TEXT", Toast.LENGTH_SHORT).show()
+            //список обработать GSON
+            val fragmentEpisodes = FragmentEpisodes.newInstance(item.name, item.episode.toString())
+
+            val transaction = itemView.context as AppCompatActivity
+            transaction.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container_view, FragmentEpisodes())
+                .addToBackStack(null)
+                .commit()
         }
     }
 }
