@@ -4,12 +4,16 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 const val BASE_URL = "https://rickandmortyapi.com/api/"
 
 interface HeroesApi {
     @GET("character")
-    fun getCharacter(): Call<HeroesNetwork>
+    fun getCharacter(
+        @Query("page")
+        page: Int
+    ): Call<HeroesNetwork>
 
     companion object {
         fun create(): HeroesApi {

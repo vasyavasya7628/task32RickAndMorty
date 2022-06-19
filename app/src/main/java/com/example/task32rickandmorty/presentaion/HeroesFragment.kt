@@ -16,7 +16,10 @@ class HeroesFragment : Fragment() {
     private var _binding: FragmentHeroesBinding? = null
     private val binding get() = _binding!!
     private val heroesViewModel: HeroesViewModel by viewModels()
-    private val heroesAdapter = HeroesAdapter()
+    private val heroesAdapter: HeroesAdapter = HeroesAdapter {
+        heroesViewModel.loadNextPage()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

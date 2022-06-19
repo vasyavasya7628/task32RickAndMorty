@@ -8,38 +8,67 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.task32rickandmorty.R
-import com.example.task32rickandmorty.data.HeroesLocal
+import com.example.task32rickandmorty.databinding.ItemButtonBinding
 import com.example.task32rickandmorty.databinding.ItemHeroesBinding
+import com.example.task32rickandmorty.model.HeroesUi
 
-class HeroesAdapter : ListAdapter<HeroesLocal, ItemViewHolder>(diffUtil) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(
-            ItemHeroesBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+class HeroesAdapter(private val onClickNextPage: () -> Unit) :
+    ListAdapter<HeroesUi, RecyclerView.ViewHolder>(diffUtil) {
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is HeroesUi.Data -> 0
+            is HeroesUi.NextPage -> 1
+        }
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(getItem(position) as HeroesLocal)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            0 -> HeroesViewHolder(
+                ItemHeroesBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            1 -> PageViewHolder(
+                ItemButtonBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            else -> {
+                throw Throwable("ERROR")
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        when (holder) {
+            is HeroesViewHolder -> holder.bind(getItem(position) as HeroesUi.Data)
+            is PageViewHolder -> holder.bind(onClickNextPage)
+
+        }
     }
 }
 
-class ItemViewHolder(binding: ItemHeroesBinding) : RecyclerView.ViewHolder(binding.root) {
-    private val bindItem = binding
-    fun bind(item: HeroesLocal) {
-        bindItem.textSpecies.text = item.species
-        bindItem.textGender.text = item.gender
+class HeroesViewHolder(private val binding: ItemHeroesBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(item: HeroesUi.Data) {
+        binding.textSpecies.text = item.item.species
+        binding.textGender.text = item.item.gender
 
-        Glide.with(bindItem.imgHero.context)
-            .load(item.image)
-            .into(bindItem.imgHero)
+        Glide.with(binding.imgHero.context)
+            .load(item.item.image)
+            .into(binding.imgHero)
 
-        bindItem.imgHero.setOnClickListener {
+        binding.imgHero.setOnClickListener {
             val fragmentEpisodes: FragmentEpisodes =
-                FragmentEpisodes.newInstance(item.name, item.episode.toString()) as FragmentEpisodes
+                FragmentEpisodes.newInstance(
+                    item.item.name,
+                    item.item.episode.toString()
+                ) as FragmentEpisodes
             val transaction = itemView.context as AppCompatActivity
             transaction.supportFragmentManager
                 .beginTransaction()
@@ -50,13 +79,28 @@ class ItemViewHolder(binding: ItemHeroesBinding) : RecyclerView.ViewHolder(bindi
     }
 }
 
-private val diffUtil = object : DiffUtil.ItemCallback<HeroesLocal>() {
+class PageViewHolder(private val binding: ItemButtonBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(onClickNextPage: () -> Unit) {
+        binding.btLoad.setOnClickListener {
+            onClickNextPage()
+        }
+    }
+}
 
-    override fun areItemsTheSame(oldItem: HeroesLocal, newItem: HeroesLocal): Boolean {
+private val diffUtil = object : DiffUtil.ItemCallback<HeroesUi>() {
+
+    override fun areItemsTheSame(
+        oldItem: HeroesUi,
+        newItem: HeroesUi
+    ): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: HeroesLocal, newItem: HeroesLocal): Boolean {
+    override fun areContentsTheSame(
+        oldItem: HeroesUi,
+        newItem: HeroesUi
+    ): Boolean {
         return oldItem == newItem
     }
 }
