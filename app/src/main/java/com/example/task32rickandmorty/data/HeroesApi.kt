@@ -1,5 +1,7 @@
 package com.example.task32rickandmorty.data
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,11 +19,13 @@ interface HeroesApi {
 
     companion object {
         fun create(): HeroesApi {
+            GlobalScope.launch {}
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(HeroesApi::class.java)
+
         }
     }
 }
