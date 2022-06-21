@@ -5,14 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.task32rickandmorty.data.HeroesApi
-import com.example.task32rickandmorty.data.HeroesNetwork
-import com.example.task32rickandmorty.data.PagesLocal
 import com.example.task32rickandmorty.data.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Response
+import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.lang.Exception
 
 class HeroesViewModel : ViewModel() {
     private val api: HeroesApi = HeroesApi.create()
@@ -20,52 +18,53 @@ class HeroesViewModel : ViewModel() {
         MutableLiveData<List<HeroesUi>>()
     val heroesExport: LiveData<List<HeroesUi>> get() = _heroes
     private var currentPage = 1
-
+    private val MIN_PAGES = 1
+    private val MAX_PAGES = 41
+    private val PAGES_LIMIT = 42
     init {
-        getDataNW(currentPage)
+        getDataNW()
     }
 
     fun loadNextPage() {
-        getDataNW(currentPage)
+        getDataNW()
     }
 
-    private fun getDataNW(page: Int) {
+    private fun getDataNW() {
         viewModelScope.launch(Dispatchers.IO) {
-            api.getCharacter(
-                page
-            ).enqueue(object : retrofit2.Callback<HeroesNetwork> {
-
-                override fun onResponse(
-                    call: Call<HeroesNetwork>,
-                    response: Response<HeroesNetwork>
-                ) {
-                    val heroesNetwork: HeroesNetwork = response.body() as HeroesNetwork
-                    val heroesDomain: PagesLocal = heroesNetwork.toDomain()
-                    val newHeroesList: MutableList<HeroesUi> = heroesDomain.heroesList.map {
+            try {
+                val response = api.getCharacter(currentPage).toDomain()
+                val heroesUi: MutableList<HeroesUi> =
+                    response.heroesList.map {
                         HeroesUi.Data(it)
                     }.toMutableList()
-                    if (heroesDomain.pages > currentPage) {
+                when {
+                    currentPage == MIN_PAGES -> {
+                        heroesUi.add(HeroesUi.NextPage)
+                        withContext(Dispatchers.Main) {
+                            _heroes.value = heroesUi
+                        }
                         currentPage++
-                        Timber.tag("Page").d(currentPage.toString())
-                        newHeroesList.add(HeroesUi.NextPage)
                     }
-
-                    val oldHeroesList: MutableList<HeroesUi> =
-                        _heroes.value?.toMutableList() ?: mutableListOf()
-                    oldHeroesList.addAll(newHeroesList)
-
-                    if (currentPage > page) {
-                        oldHeroesList.remove(HeroesUi.NextPage)
-                        _heroes.value = newHeroesList
+                    currentPage < MAX_PAGES -> {
+                        heroesUi.add(HeroesUi.NextPage)
+                        withContext(Dispatchers.Main) {
+                            _heroes.value = heroesUi
+                        }
+                        currentPage++
+                    }
+                    currentPage == PAGES_LIMIT ->{
+                        Timber.d("Последняя страница")
                     }
                 }
 
-                override fun onFailure(call: Call<HeroesNetwork>, t: Throwable) {
-                    Timber.tag("Net_err").d("Ошибка данных")
-                }
+            } catch (e: Exception) {
+                Timber.tag("Что-то не так с запросом")
+            }
 
-            })
+
         }
 
     }
 }
+
+

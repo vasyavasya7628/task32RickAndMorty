@@ -1,6 +1,6 @@
 package com.example.task32rickandmorty.data
 
-fun HeroesNetwork.toDomain(): PagesLocal{
+fun HeroesNW.toDomain(): PagesLocal{
     return  PagesLocal(
         next = pagesNetwork.next,
         pages = pagesNetwork.count,

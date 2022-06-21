@@ -3,7 +3,7 @@ package com.example.task32rickandmorty.data
 
 import com.google.gson.annotations.SerializedName
 
-data class HeroesNetwork(
+data class HeroesNW(
     @SerializedName("info")
     val pagesNetwork: PagesNetwork,
     @SerializedName("results")
