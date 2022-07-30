@@ -5,30 +5,31 @@
     android:id="@+id/fragmentEpisodes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentaion.FragmentEpisodes">
+    android:background="@color/cardview_dark_background"
+    tools:context=".ui.FragmentEpisodes">
 
     <TextView
-        android:id="@+id/textName"
+        android:id="@+id/tvName"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="0dp"
         android:layout_marginTop="4dp"
-        android:text="@string/hello_blank_fragment"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Name" />
 
     <TextView
-        android:id="@+id/textEpisodes"
+        android:id="@+id/tvEpisodes"
         android:layout_width="match_parent"
-        android:layout_height="602dp"
+        android:layout_height="0dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:text="@string/hello_blank_fragment"
+        android:maxWidth="50dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textName"
-        app:layout_constraintVertical_bias="0.0" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="Episode" />
 </androidx.constraintlayout.widget.ConstraintLayout>

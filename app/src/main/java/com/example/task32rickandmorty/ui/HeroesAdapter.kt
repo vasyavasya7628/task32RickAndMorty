@@ -1,4 +1,4 @@
-package com.example.task32rickandmorty.presentaion
+package com.example.task32rickandmorty.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,36 +8,38 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.task32rickandmorty.R
-import com.example.task32rickandmorty.data.HeroesLocal
 import com.example.task32rickandmorty.databinding.ItemHeroesBinding
 
-class HeroesAdapter : ListAdapter<HeroesLocal, ItemViewHolder>(diffUtil) {
+class HeroesAdapter : ListAdapter<HeroesUI, ItemViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
-            ItemHeroesBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+            ItemHeroesBinding
+                .inflate(LayoutInflater
+                    .from(parent.context),
+                    parent,
+                    false
+                )
         )
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(getItem(position) as HeroesLocal)
+        holder.bind(getItem(position) as HeroesUI)
     }
 }
 
-class ItemViewHolder(binding: ItemHeroesBinding) : RecyclerView.ViewHolder(binding.root) {
-    private val bindItem = binding
-    fun bind(item: HeroesLocal) {
-        bindItem.textSpecies.text = item.species
-        bindItem.textGender.text = item.gender
+class ItemViewHolder(private val binding: ItemHeroesBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
-        Glide.with(bindItem.imgHero.context)
+    fun bind(item: HeroesUI) {
+        binding.tvRace.text = item.species
+        binding.tvGender.text = item.gender
+
+        Glide.with(binding.ivHero.context)
             .load(item.image)
-            .into(bindItem.imgHero)
+            .into(binding.ivHero)
 
-        bindItem.imgHero.setOnClickListener {
+        binding.ivHero.setOnClickListener {
+
             val fragmentEpisodes: FragmentEpisodes =
                 FragmentEpisodes.newInstance(item.name, item.episode.toString()) as FragmentEpisodes
             val transaction = itemView.context as AppCompatActivity
@@ -50,13 +52,13 @@ class ItemViewHolder(binding: ItemHeroesBinding) : RecyclerView.ViewHolder(bindi
     }
 }
 
-private val diffUtil = object : DiffUtil.ItemCallback<HeroesLocal>() {
+private val diffUtil = object : DiffUtil.ItemCallback<HeroesUI>() {
 
-    override fun areItemsTheSame(oldItem: HeroesLocal, newItem: HeroesLocal): Boolean {
+    override fun areItemsTheSame(oldItem: HeroesUI, newItem: HeroesUI): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: HeroesLocal, newItem: HeroesLocal): Boolean {
+    override fun areContentsTheSame(oldItem: HeroesUI, newItem: HeroesUI): Boolean {
         return oldItem == newItem
     }
 }

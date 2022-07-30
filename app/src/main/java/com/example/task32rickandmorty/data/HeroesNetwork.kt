@@ -1,13 +1,12 @@
 package com.example.task32rickandmorty.data
 
-
 import com.google.gson.annotations.SerializedName
 
 data class HeroesNetwork(
     @SerializedName("info")
     val pagesNetwork: PagesNetwork,
     @SerializedName("results")
-    val results: List<Result>
+    val results: List<Result>,
 )
 
 data class PagesNetwork(
@@ -18,7 +17,7 @@ data class PagesNetwork(
     @SerializedName("pages")
     val pages: Int,
     @SerializedName("prev")
-    val prev: Any
+    val prev: Any,
 )
 
 data class Result(
@@ -45,20 +44,19 @@ data class Result(
     @SerializedName("type")
     val type: String,
     @SerializedName("url")
-    val url: String
+    val url: String,
 )
 
 data class Location(
     @SerializedName("name")
     val name: String,
     @SerializedName("url")
-    val url: String
+    val url: String,
 )
 
 data class Origin(
     @SerializedName("name")
     val name: String,
     @SerializedName("url")
-    val url: String
+    val url: String,
 )
-
