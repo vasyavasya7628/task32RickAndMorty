@@ -1,6 +1,5 @@
 package com.example.task32rickandmorty.data
 
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -10,9 +9,9 @@ const val BASE_URL = "https://rickandmortyapi.com/api/"
 
 interface HeroesApi {
     @GET("character")
-   suspend fun getCharacter(
+    suspend fun getCharacter(
         @Query("page")
-        page: Int
+        page: Int,
     ): HeroesNW
 
     companion object {
