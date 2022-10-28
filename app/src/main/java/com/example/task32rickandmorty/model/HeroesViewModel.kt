@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.lang.Exception
 
 class HeroesViewModel : ViewModel() {
     private val api: HeroesApi = HeroesApi.create()
@@ -66,5 +65,3 @@ class HeroesViewModel : ViewModel() {
 
     }
 }
-
-

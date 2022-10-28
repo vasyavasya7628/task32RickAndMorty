@@ -17,23 +17,3 @@ private fun List<Result>.toDomain(): List<HeroesLocal> = map{
         episode = it.episode
     )
 }
-
-
-
-//fun Result.toDomain(): HeroesLocal {
-//    return HeroesLocal(
-//        image = image,
-//        species = type,
-//        gender = gender,
-//        name = name,
-//        episode = episode
-//    )
-//}
-//
-//fun PagesNetwork.toDomain(): PagesLocal{
-//    return PagesLocal(
-//        next = next,
-//        pages = pages,
-//        heroesList =
-//    )
-//}

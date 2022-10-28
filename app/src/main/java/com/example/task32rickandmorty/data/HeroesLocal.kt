@@ -7,8 +7,3 @@ data class HeroesLocal(
     val name: String,
     val episode: List<String>
 )
-
-
-
-
-
